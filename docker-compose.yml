@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+        POSTGRES_USER: medicarUser
+        POSTGRES_PASSWORD: medicar123
+        POSTGRES_DB: medicarDb
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - ./db/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./db/sql/fill_tables.sql:/docker-entrypoint-initdb.d/fill_tables.sql
+  
+volumes:
+  pg-data:
