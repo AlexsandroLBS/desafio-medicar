@@ -1,0 +1,37 @@
+<div class="content">
+  <div class="title">
+    <medicar-icon></medicar-icon> <h1>Medicar</h1>
+  </div>
+  <h2>Crie sua conta</h2>
+    <form class="login-form" [formGroup]="form">
+      <div class="input-box" style="padding-bottom: 20px;">
+        <input type="text" required="required" formControlName="email">
+        <span>Nome</span>
+      </div>
+
+      <div class="input-box" style="padding-bottom: 20px;">
+        <input type="text" required="required" formControlName="nome">
+        <span>Email</span>
+      </div>
+
+      <div class="input-box" style="padding-bottom: 20px;">
+        <input id="btn-senha"type="password" required="required" formControlName="senha">
+        <span>Senha</span>
+        <button *ngIf="!senhaVisivel"class="eye" (click)="mostrarSenha()"><i><eye-icon></eye-icon></i></button>
+        <button *ngIf="senhaVisivel" class="eye" (click)="mostrarSenha()"><i><eye-slash-icon></eye-slash-icon></i></button>
+      </div>
+
+      <div class="input-box">
+        <input id="btn-senha-confirmacao"type="password" required="required" formControlName="senhaConfirmacao">
+        <span>Senha</span>
+        <button *ngIf="!senhaConfirmacaoVisivel"class="eye" (click)="mostrarSenhaConfirmacao()"><i><eye-icon></eye-icon></i></button>
+        <button *ngIf="senhaConfirmacaoVisivel" class="eye" (click)="mostrarSenhaConfirmacao()"><i><eye-slash-icon></eye-slash-icon></i></button>
+      </div>
+
+
+      <div class="action-buttons">
+        <button id="criar-conta-btn"><b>Cancelar</b></button>
+        <button id="login-btn" [disabled]="!form.valid || (this.form.get('senha')!.value != this.form.get('senhaConfirmacao')!.value)"> Confirmar</button>
+      </div>
+    </form>
+  </div>
