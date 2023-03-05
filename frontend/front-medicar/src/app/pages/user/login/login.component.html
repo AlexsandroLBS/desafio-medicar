@@ -1,0 +1,25 @@
+<div class="content">
+  <div class="title">
+    <medicar-icon></medicar-icon> <h1>Medicar</h1>
+  </div>
+    <form class="login-form" [formGroup]="form">
+      <div class="input-box" style="padding-bottom: 20px;">
+        <input type="text" required="required" formControlName="usuario">
+        <span>Email ou Login</span>
+      </div>
+      <div class="input-box">
+        <input id="btn-senha"type="password" required="required" formControlName="senha">
+        <span>Senha</span>
+        <button *ngIf="!senhaVisivel"class="eye" (click)="mostrarSenha()"><i><eye-icon></eye-icon></i></button>
+        <button *ngIf="senhaVisivel" class="eye" (click)="mostrarSenha()"><i><eye-slash-icon></eye-slash-icon></i></button>
+      </div>
+      <div class="lembrar-senha">
+        <input type="checkbox" name="lembrar-senha" id="lembrar-senha-checkbox">
+        <label for="lembrar-senha"> Lembrar minha senha</label>
+      </div>
+      <div class="action-buttons">
+        <button id="criar-conta-btn"><b>Criar Conta</b></button>
+        <button id="login-btn" [disabled]="!form.valid"> Acessar</button>
+      </div>
+    </form>
+  </div>
