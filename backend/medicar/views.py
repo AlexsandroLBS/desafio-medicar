@@ -3,7 +3,7 @@ from datetime import datetime
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from rest_framework import viewsets, generics, status
+from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -56,13 +56,11 @@ class SignUpViewSet(generics.ListCreateAPIView):
             return Response({'error':'Email  já cadastrado'})
         else: 
             return Response({'error':'Error ao inserir usuario'})
-        
-class EspecialidadesViewSet(generics.ListCreateAPIView):
-    serializer_class = EspecialidadesSerializer
-    def get_queryset(self):
-        queryset = Medico.objects.all()
-        queryset = set(queryset)
-        return queryset
+    
+class EspecialidadesViewSet(APIView):
+    def get(self, request):
+        especialidades = Medico.objects.values_list('especialidade', flat=True).distinct()
+        return Response({'especialidades': list(especialidades)})
 
 
 class MedicosViewSet(generics.ListCreateAPIView):
@@ -109,10 +107,16 @@ class ConsultasViewSet(generics.ListCreateAPIView):
 class ConsultasDeleteViewSet(generics.DestroyAPIView):
     serializer_class = ConsultaSerializer
     def destroy(self, *args, **kwargs):
-            consulta_id = kwargs['id']
-            consulta = get_object_or_404(Consulta, id=consulta_id)
+        current_datetime = timezone.now()
+        dia_atual = current_datetime.date()
+        hora_atual = current_datetime.time()
+        consulta_id = kwargs['id']
+        consulta = get_object_or_404(Consulta, id=consulta_id)
+        if datetime.combine(consulta.dia, consulta.horario) >= datetime.combine(dia_atual, hora_atual):
             consulta.delete()
             return HttpResponse(status=204)
+        else:
+            return Response({'error': 'Consulta já aconteceu'}, status=400) 
 
 
 class AgendaViewSet(APIView):
