@@ -4,7 +4,7 @@ from django.contrib.postgres.fields import ArrayField
 class Usuario(models.Model):
     nome = models.CharField(unique=True, max_length=20)
     senha = models.CharField(null=False, max_length=20)
-
+    email = models.CharField(null=True, max_length=100)
     def __str__(self):
         return self.nome
 
