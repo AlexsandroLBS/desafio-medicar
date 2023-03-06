@@ -20,4 +20,8 @@ export class ConsultasService {
   public deleteConsulta(id:number){
     return this.httpClient.delete(this.apiUrl+this.contants.consultas.consultas+id+"/")
   }
+
+  public getEspecialidades(){
+    return this.httpClient.get(this.apiUrl+this.contants.consultas.especialidades)
+  }
 }
