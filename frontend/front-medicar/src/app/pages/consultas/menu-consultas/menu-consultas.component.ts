@@ -10,12 +10,25 @@ import { ConsultasService } from '../consultas-service/consultas.service';
 export class MenuConsultasComponent implements OnInit{
   public consultas: any;
   public usuario: string = '';
+  public especialidades: any = []
+
+  public especialidade: string = '';
+  public medico: string = '';
+  public date: any = '';
+  public horario: any = ''
+
+
 
   constructor(private consultasService: ConsultasService, private router: Router){}
 
   ngOnInit(): void {
     this.initTable()
     this.usuario = sessionStorage.getItem('usuario')!
+
+    const myModalEl = document.getElementById('nova-consulta')
+    myModalEl!.addEventListener('show.bs.modal', event => {
+      this.loadEspecialidades();
+  })
   }
 
   private initTable(){
@@ -29,5 +42,21 @@ export class MenuConsultasComponent implements OnInit{
 
   public desconectar(){
     this.router.navigate(['/login'])
+  }
+
+
+  public async loadEspecialidades(){
+    this.consultasService.getEspecialidades().subscribe((data: any) => {
+      this.especialidades = data.especialidades;
+    })
+  }
+
+  public changeEspecialidade(e: any){
+    this.especialidade = e.target.value
+
+  }
+
+  public loadMedicos(){
+
   }
 }
