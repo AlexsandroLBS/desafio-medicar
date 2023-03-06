@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from medicar.models import Agenda, Medico, Consulta, Usuario
-from medicar.serializer import MedicoSerializer, ConsultaSerializer, UsuarioSerializer, AgendaSerializer, EspecialidadesSerializer
+from medicar.serializer import MedicoSerializer, ConsultaSerializer, UsuarioSerializer, AgendaSerializer
 
 class LoginViewSet(generics.ListCreateAPIView):
     serializer_class = UsuarioSerializer
@@ -33,7 +33,8 @@ class LoginViewSet(generics.ListCreateAPIView):
 
         serializer = self.serializer_class(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+
 class SignUpViewSet(generics.ListCreateAPIView):
     serializer_class = UsuarioSerializer 
     def post(self, request):
@@ -56,11 +57,38 @@ class SignUpViewSet(generics.ListCreateAPIView):
             return Response({'error':'Email  já cadastrado'})
         else: 
             return Response({'error':'Error ao inserir usuario'})
-    
+
+
 class EspecialidadesViewSet(APIView):
     def get(self, request):
-        especialidades = Medico.objects.values_list('especialidade', flat=True).distinct()
-        return Response({'especialidades': list(especialidades)})
+        current_datetime = timezone.now()
+        dia_atual = current_datetime.date()
+        hora_atual = current_datetime.time()
+        agendas = Agenda.objects.all()
+        agendas = agendas.exclude(horarios=[])
+        especialidades = []
+        for agenda in agendas:
+            horarios_filtrados = []
+            for horario in agenda.horarios:
+                if datetime.combine(agenda.dia, horario) >= datetime.combine(dia_atual, hora_atual):
+                    if not Consulta.objects.filter(dia=agenda.dia, horario=horario, medico=agenda.medico).exists():
+                        horarios_filtrados.append(horario.strftime('%H:%M'))
+            if horarios_filtrados:
+                especialidades.append(agenda.medico.especialidade)
+        if especialidades:
+            return Response({'especialidades': especialidades})
+        else:
+            return Response({'error': 'Não há nenhuma consulta disponivel'})
+
+
+class MedicoEspecialidade(APIView):
+    def get(self, request):
+        id = self.request.query_params.get('id')
+        if id:
+            medico = get_object_or_404(Medico, id=id)
+            serializer = MedicoSerializer(medico)
+            return Response(serializer.data)
+        return Response({'error':'Medico não encontrado'})
 
 
 class MedicosViewSet(generics.ListCreateAPIView):
@@ -99,6 +127,8 @@ class ConsultasViewSet(generics.ListCreateAPIView):
                 data_agendamento=timezone.now(),
                 medico=medico
             )
+            agenda.horarios.remove(horario)
+            agenda.save()
             serializer = self.get_serializer(consulta)
             return Response(serializer.data)
         return Response({'error': 'Horário indisponível'}, status=400)     
@@ -113,6 +143,9 @@ class ConsultasDeleteViewSet(generics.DestroyAPIView):
         consulta_id = kwargs['id']
         consulta = get_object_or_404(Consulta, id=consulta_id)
         if datetime.combine(consulta.dia, consulta.horario) >= datetime.combine(dia_atual, hora_atual):
+            agenda = get_object_or_404(Agenda, dia = consulta.dia, medico = consulta.medico)
+            agenda.horarios.append(consulta.horario)
+            agenda.save()
             consulta.delete()
             return HttpResponse(status=204)
         else:
@@ -121,7 +154,6 @@ class ConsultasDeleteViewSet(generics.DestroyAPIView):
 
 class AgendaViewSet(APIView):
     def get(self, request):
-
         current_datetime = timezone.now()
         dia_atual = current_datetime.date()
         hora_atual = current_datetime.time()
@@ -148,7 +180,7 @@ class AgendaViewSet(APIView):
             for horario in agenda.horarios:
                 if datetime.combine(agenda.dia, horario) >= datetime.combine(dia_atual, hora_atual):
                     if not Consulta.objects.filter(dia=agenda.dia, horario=horario, medico=agenda.medico).exists():
-                        horarios_filtrados.append(horario)
+                        horarios_filtrados.append(horario.strftime('%H:%M'))
             if horarios_filtrados:
                 agenda_dict = {
                     'id': agenda.id,
@@ -156,7 +188,8 @@ class AgendaViewSet(APIView):
                         'id': agenda.medico.id,
                         'crm': agenda.medico.crm,
                         'nome': agenda.medico.nome,
-                        'email': agenda.medico.email
+                        'email': agenda.medico.email,
+                        'especialidade': agenda.medico.especialidade
                     },
                     'dia': str(agenda.dia),
                     'horarios': horarios_filtrados
