@@ -9,7 +9,10 @@ import { MedicarIconComponent } from './pages/icon/medicar-icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EyeIconComponent } from './pages/icon/eye';
 import { EyeSlashIconComponent } from './pages/icon/eye-slash';
-
+import { HttpClientModule } from '@angular/common/http';
+import { UserService } from './pages/user/user-service/user-service.service';
+import { MenuConsultasComponent } from './pages/consultas/menu-consultas/menu-consultas.component';
+import { PlusIconComponent } from './pages/icon/plus-icon';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,15 +20,18 @@ import { EyeSlashIconComponent } from './pages/icon/eye-slash';
     CadastroComponent,
     MedicarIconComponent,
     EyeIconComponent,
-    EyeSlashIconComponent
+    EyeSlashIconComponent,
+    MenuConsultasComponent,
+    PlusIconComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
