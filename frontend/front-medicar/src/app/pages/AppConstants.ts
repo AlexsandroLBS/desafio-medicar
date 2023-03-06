@@ -6,5 +6,6 @@ export const AppConstants = {
   consultas:{
     consultas: 'consultas/',
     agendar: 'agenda/',
+    especialidades: 'especialidades/'
   }
 }
