@@ -3,19 +3,60 @@ from datetime import datetime
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from medicar.models import Agenda, Medico, Consulta, Usuario
 from medicar.serializer import MedicoSerializer, ConsultaSerializer, UsuarioSerializer, AgendaSerializer, EspecialidadesSerializer
 
+class LoginViewSet(generics.ListCreateAPIView):
+    serializer_class = UsuarioSerializer
 
-class UsuariosViewSet(viewsets.ModelViewSet):
-    queryset = Usuario.objects.all()
-    serializer_class = UsuarioSerializer  
+    def post(self, request):
+        nome = request.data.get('nome')
+        senha = request.data.get('senha')
+        email = request.data.get('email')
 
+        # Verificar se as credenciais são fornecidas
+        if (not nome and not email) or not senha:
+            return Response({'message': 'Forneça um nome de usuário ou e-mail e uma senha'})
 
+        # Verificar se o usuário existe no banco de dados
+        if nome:
+            user = Usuario.objects.filter(nome=nome, senha = senha).first()
+        else:
+            user = Usuario.objects.filter(email=email, senha = senha).first()
+
+        if not user:
+            return Response({'message': 'Usuário não encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class SignUpViewSet(generics.ListCreateAPIView):
+    serializer_class = UsuarioSerializer 
+    def post(self, request):
+        nome = request.data.get('nome')
+        email = request.data.get('email')
+        senha = request.data.get('senha')
+        if not (Usuario.objects.filter(nome=nome) or Usuario.objects.filter(email=email)):
+            usuario = Usuario.objects.create(
+                    nome = nome,
+                    email = email,
+                    senha = senha
+                )
+            serializer = self.get_serializer(usuario)
+            return Response(serializer.data)
+        if (Usuario.objects.filter(nome=nome) and Usuario.objects.filter(email=email)):
+            return Response({'error':'Usuário e email já cadastrados'})
+        elif Usuario.objects.filter(nome=nome):
+            return Response({'error':'Usuário  já cadastrado'})
+        elif Usuario.objects.filter(email=email):
+            return Response({'error':'Email  já cadastrado'})
+        else: 
+            return Response({'error':'Error ao inserir usuario'})
+        
 class EspecialidadesViewSet(generics.ListCreateAPIView):
     serializer_class = EspecialidadesSerializer
     def get_queryset(self):
