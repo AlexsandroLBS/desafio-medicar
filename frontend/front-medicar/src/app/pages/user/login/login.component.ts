@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from '../user-service/user-service.service';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +12,11 @@ export class LoginComponent implements OnInit{
 
   public form: FormGroup;
   public senhaVisivel: boolean = false;
-
-  constructor(private formBuilder: FormBuilder){
+  public sessionUser: any;
+  constructor(private formBuilder: FormBuilder,
+              private loginService: UserService,
+              private router: Router
+              ){
     this.form = this.formBuilder.group({
       usuario: [null, Validators.required],
       senha: [null, Validators.required]
@@ -30,5 +35,22 @@ export class LoginComponent implements OnInit{
     else{
       btn.type = 'password'
     }
+  }
+  public createAccount(){
+    this.router.navigate(['/cadastro'])
+  }
+  public sendLogin(){
+    const senha = this.form.get('senha')!.value;
+    const isEmail = /@/.test(this.form.get('usuario')!.value);
+
+    const nome = isEmail ? "" : this.form.get('usuario')!.value ;
+    const email = isEmail ? this.form.get('usuario')!.value  : "";
+
+    this.loginService.userLogin(nome, email, senha).subscribe((data) =>{
+      this.sessionUser = data;
+      sessionStorage.setItem('usuario', this.sessionUser.nome)
+      this.router.navigate([`menu/`])
+    }
+    )
   }
 }

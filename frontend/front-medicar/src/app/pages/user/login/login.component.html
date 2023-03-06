@@ -18,8 +18,9 @@
         <label for="lembrar-senha"> Lembrar minha senha</label>
       </div>
       <div class="action-buttons">
-        <button id="criar-conta-btn"><b>Criar Conta</b></button>
-        <button id="login-btn" [disabled]="!form.valid"> Acessar</button>
+        <button id="criar-conta-btn" (click)="createAccount()"><b>Criar Conta</b></button>
+        <button id="login-btn" [disabled]="!form.valid" (click)="sendLogin()"> Acessar</button>
+        
       </div>
     </form>
   </div>
