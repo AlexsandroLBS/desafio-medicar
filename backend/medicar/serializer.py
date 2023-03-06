@@ -39,4 +39,4 @@ class AgendaSerializer(serializers.ModelSerializer):
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['id', 'nome', 'senha']
+        fields = ['id', 'nome', 'email']
