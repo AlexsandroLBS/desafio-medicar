@@ -14,13 +14,13 @@
         <button *ngIf="senhaVisivel" class="eye" (click)="mostrarSenha()"><i><eye-slash-icon></eye-slash-icon></i></button>
       </div>
       <div class="lembrar-senha">
-        <input type="checkbox" name="lembrar-senha" id="lembrar-senha-checkbox">
+        <input type="checkbox" name="lembrar-senha" id="lembrar-senha-checkbox" value="lembrarSenha" (change)="lembrarSenha= !lembrarSenha">
         <label for="lembrar-senha"> Lembrar minha senha</label>
       </div>
       <div class="action-buttons">
         <button id="criar-conta-btn" (click)="createAccount()"><b>Criar Conta</b></button>
         <button id="login-btn" [disabled]="!form.valid" (click)="sendLogin()"> Acessar</button>
-        
+
       </div>
     </form>
   </div>

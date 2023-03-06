@@ -13,13 +13,14 @@ export class LoginComponent implements OnInit{
   public form: FormGroup;
   public senhaVisivel: boolean = false;
   public sessionUser: any;
+  public lembrarSenha:boolean = false;
   constructor(private formBuilder: FormBuilder,
               private loginService: UserService,
               private router: Router
               ){
     this.form = this.formBuilder.group({
       usuario: [null, Validators.required],
-      senha: [null, Validators.required]
+      senha: [localStorage.getItem('senha'), Validators.required]
     })
   }
 
@@ -49,6 +50,12 @@ export class LoginComponent implements OnInit{
     this.loginService.userLogin(nome, email, senha).subscribe((data) =>{
       this.sessionUser = data;
       sessionStorage.setItem('usuario', this.sessionUser.nome)
+      if(this.lembrarSenha){
+        localStorage.setItem('senha', senha)
+      }
+      else{
+        localStorage.setItem('senha', '')
+      }
       this.router.navigate([`menu/`])
     }
     )
