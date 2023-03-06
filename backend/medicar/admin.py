@@ -13,13 +13,8 @@ class Medicos(admin.ModelAdmin):
 
 class Agendas(admin.ModelAdmin):
     list_display = ('id', 'medico', 'dia', 'horarios')
-
-class Consultas(admin.ModelAdmin):
-    list_display = ('id', 'dia', 'horario', 'data_agendamento', 'medico')
-
-
+    
 
 admin.site.register(Medico, Medicos)
-admin.site.register(Consulta, Consultas)
 admin.site.register(Usuario, Usuarios)
 admin.site.register(Agenda, Agendas)
