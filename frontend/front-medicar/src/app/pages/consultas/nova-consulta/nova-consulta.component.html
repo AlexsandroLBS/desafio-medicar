@@ -1,0 +1,45 @@
+<!-- Modal -->
+<div class="modal fade" id="nova-consulta" tabindex="-1" aria-labelledby="nova-consultaLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius: 0px;  border-bottom: none;">
+      <div class="modal-header" style="border-bottom: none;">
+        <h4 class="modal-title" id="nova-consultaLabel" style="font-size: 18px; padding-left: 20px; padding-top: 40px;"><b>Nova Consulta</b></h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+          <select class="select-agendamento" name="especialidades" (click)="changeEspecialidade($event)">
+            <option selected disabled style="color:#A8A8A8;">Especialidade</option>
+            <option  *ngFor="let especialidade of especialidades" [value]="especialidade">{{especialidade}}</option>
+          </select>
+
+          <select class="select-agendamento" name="medicos" [disabled]="especialidade? null: true" (change)="changeMedico($event)">
+            <option selected disabled style="color:#A8A8A8;">Médico</option>
+            <option  *ngFor="let medico of medicos" [value]="medico.id">{{medico.nome}}</option>
+            <option [value]=""></option>
+
+          </select>
+
+          <select class="select-agendamento" name="dias" [disabled]="medico? null: true" (change)="changeDia($event)">
+            <option selected disabled style="color:#A8A8A8;">Dia</option>
+            <option *ngFor="let agenda of agendas" [value]="agenda.dia">{{agenda.dia}}</option>
+            <option [value]=""></option>
+          </select>
+
+          <select class="select-agendamento" name="horarios" [disabled]="dia? null: true" (change)="changeHorario($event)">
+            <option selected disabled style="color:#A8A8A8;">Horário</option>
+            <option *ngFor="let horario of horarios" [value]="horario">{{horario}}</option>
+            <option [value]=""></option>
+          </select>
+
+
+      <div class="modal-footer" style="border-top: none;">
+        <div class="action-buttons">
+          <button id="cancelar-btn" data-bs-dismiss="modal" (click)="closeDrawer()"><b>Cancelar</b> </button>
+          <button id="confirm-btn" (click)="agendarConsulta()" [disabled]="!dia || !medico || !horario || !especialidade" >Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
