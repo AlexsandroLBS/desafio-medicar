@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from medicar.models import Agenda, Medico, Consulta, Usuario
 from medicar.serializer import MedicoSerializer, ConsultaSerializer, UsuarioSerializer, AgendaSerializer
 
+
 class LoginViewSet(generics.ListCreateAPIView):
     serializer_class = UsuarioSerializer
 
@@ -18,11 +19,8 @@ class LoginViewSet(generics.ListCreateAPIView):
         senha = request.data.get('senha')
         email = request.data.get('email')
 
-        # Verificar se as credenciais são fornecidas
         if (not nome and not email) or not senha:
             return Response({'message': 'Forneça um nome de usuário ou e-mail e uma senha'})
-
-        # Verificar se o usuário existe no banco de dados
         if nome:
             user = Usuario.objects.filter(nome=nome, senha = senha).first()
         else:
@@ -75,7 +73,9 @@ class EspecialidadesViewSet(APIView):
                         horarios_filtrados.append(horario.strftime('%H:%M'))
             if horarios_filtrados:
                 especialidades.append(agenda.medico.especialidade)
+                
         if especialidades:
+            especialidades = list(set(especialidades))
             return Response({'especialidades': especialidades})
         else:
             return Response({'error': 'Não há nenhuma consulta disponivel'})
@@ -91,16 +91,30 @@ class MedicoEspecialidade(APIView):
         return Response({'error':'Medico não encontrado'})
 
 
-class MedicosViewSet(generics.ListCreateAPIView):
+class MedicosViewSet(APIView):
     serializer_class = MedicoSerializer
 
-    def get_queryset(self):
-        queryset = Medico.objects.all()
+    def get(self, request):
         especialidade = self.request.query_params.get('especialidade')
-        if especialidade:
-            queryset = queryset.filter(especialidade=especialidade)
-        return queryset
+        current_datetime = timezone.now()
+        dia_atual = current_datetime.date()
+        hora_atual = current_datetime.time()
 
+        agendas = Agenda.objects.all()
+        agendas = agendas.exclude(horarios=[])
+        medicos_filtradas = []
+        for agenda in agendas:
+            horarios_filtrados = []
+            for horario in agenda.horarios:
+                if datetime.combine(agenda.dia, horario) >= datetime.combine(dia_atual, hora_atual):
+                    if not Consulta.objects.filter(dia=agenda.dia, horario=horario, medico=agenda.medico).exists():
+                        horarios_filtrados.append(horario.strftime('%H:%M'))
+            if horarios_filtrados:
+                if agenda.medico.especialidade == especialidade:
+                    medicos_filtradas.append(agenda.medico)
+
+        serializer = MedicoSerializer(list(set(medicos_filtradas)), many=True)
+        return Response(serializer.data)
 
 class ConsultasViewSet(generics.ListCreateAPIView):
     serializer_class = ConsultaSerializer
