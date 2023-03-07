@@ -5,7 +5,7 @@ from medicar.models import Medico, Consulta, Usuario, Agenda
 class MedicoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Medico
-        fields = ['id', 'nome', 'crm', 'email']
+        fields = ['id', 'nome', 'crm', 'email', 'especialidade']
 
 class EspecialidadesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,6 +13,7 @@ class EspecialidadesSerializer(serializers.ModelSerializer):
         fields = ['especialidade']
 
 class ConsultaSerializer(serializers.ModelSerializer):
+    horario = serializers.TimeField(format='%H:%M')
     medico = MedicoSerializer()
     class Meta:
         model = Consulta
@@ -20,6 +21,7 @@ class ConsultaSerializer(serializers.ModelSerializer):
         
 
 class ConsultaCreateSerializer(serializers.ModelSerializer):
+    horario = serializers.TimeField(format='%H:%M')
     medico = MedicoSerializer()
 
     class Meta:
@@ -27,13 +29,11 @@ class ConsultaCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'medico', 'dia', 'horario']
         
 
-
 class AgendaSerializer(serializers.ModelSerializer):
     medico = MedicoSerializer()
-
     class Meta:
         model = Agenda
-        fields = ['id', 'medico', 'horarios']
+        fields = ['id', 'medico', 'horarios', 'dia']
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
