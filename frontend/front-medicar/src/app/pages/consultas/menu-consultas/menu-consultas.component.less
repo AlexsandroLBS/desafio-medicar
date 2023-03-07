@@ -6,8 +6,9 @@ nav{
   width: 99vw;
   display: flex;
   justify-content: center;
-  min-width: 460px;
+  min-width: 600px;
   padding-top: 10px;
+  padding-bottom: 17px;
 }
 medicar-icon{
   display: flex;
@@ -21,6 +22,7 @@ medicar-icon{
 .nav-itens{
   display: flex;
   width: 39vw;
+  min-width: 590px;
   justify-content: space-between;
   align-items: center;
 }
@@ -38,13 +40,20 @@ medicar-icon{
 .desconectar{
   color: #49B4BB;
 }
-
-
+x-icon{
+    width: 10px;
+  }
+.delete-button{
+  display: flex;
+  justify-content: space-around;
+  align-items: start;
+  width: 120px;
+}
 .page-content{
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 400px;
+  min-width: 600px;
 }
 
 .consultas-info{
@@ -53,7 +62,7 @@ medicar-icon{
   border-color: #A8A8A8;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
-  min-width: 460px;
+  min-width: 600px;
 }
 
 .title{
@@ -82,11 +91,12 @@ medicar-icon{
 h2{
   color: #444444;
   margin-bottom: 0px;
+  margin-top: 20px;
 }
 
 .content-table{
   width: 100%;
-  font-size: 13.2px;
+  font-size: 16.2px;
   margin: 0 8px 0 8px;
   border-collapse: separate;
   border-spacing: 0;
@@ -107,84 +117,11 @@ h2{
 .content-table td{
   padding: 12px 8px;
   border: 0px solid;
+
 }
 
 .content-table tbody tr:nth-of-type(even){
   background-color: #F8F8F8;
+  height: 32px;
 }
 
-.modal-header{
-  .btn-close{
-    display: none;
-  }
-}
-
-.dropdown-toggle{
-  border: 1px solid;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-}
-select{
-  width: 100% - 10px;
-  height: 40px;
-  border-radius: 4px;
-  padding-left: 8px;
-  margin-left: 20px;
-  margin-bottom: 20px;
-}
-
-.modal-footer{
-  padding-left: 20px;
-  display: block;
-  width: 400px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.action-buttons{
-  width: 400px;
-
-  display: flex;
-  justify-content: space-between;
-  button{
-    width: 180px;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
-    font-size: 17px;
-    }
-}
-
-
-#cancelar-btn{
-  background-color: white;
-  color: #49B4BB;
-  }
-
-#confirm-btn{
-  background-color: #49B4BB;
-  color: white;
-  }
-
-#cancelar-btn:hover{
-  background-color: #D9F1F3;
-  color: #49B4BB;
-  }
-
-#confirm-btn:hover{
-  background-color: #49B4BB;
-  color: white;
-  }
-
-#cancelar-btn:disabled{
-  background-color: #D9F1F3;
-  color: #49B4BB;
-  }
-
-#confirm-btn:disabled{
-  background-color: #90D3D7;
-  color: white;
-  }

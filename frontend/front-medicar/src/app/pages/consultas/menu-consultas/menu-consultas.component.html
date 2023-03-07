@@ -1,7 +1,7 @@
 <nav >
   <div class="nav-itens">
     <div class="logo"><medicar-icon ></medicar-icon><h5 style="margin-left: 6.25px; margin-bottom: 0px;color: #444444;"><b>Medicar</b> </h5></div>
-    <div class="user-data" > <p class="usuario" >{{usuario}}</p> <p class="desconectar" (click)="desconectar()">Desconectar</p></div>
+    <div class="user-data" > <p class="usuario" style="padding: 0px 40px 0px 0px;margin: 0px;">{{usuario}}</p> <p class="desconectar" style="padding: 0px; margin: 0px;" (click)="desconectar()">Desconectar</p></div>
   </div>
 </nav>
 <div class="page-content">
@@ -13,7 +13,7 @@
     <table class="content-table">
       <thead>
         <tr>
-          <th >ESPECIALIDADE</th>
+          <th style>ESPECIALIDADE</th>
           <th >PROFISSIONAL</th>
           <th>DATA</th>
           <th>HORA</th>
@@ -21,56 +21,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let consulta of consultas">
+        <tr *ngFor="let consulta of consultas" style="height: 32px;">
           <td>{{consulta.medico.especialidade}}</td>
           <td>{{consulta.medico.nome}}</td>
           <td>{{dateTransform(consulta.dia)}}</td>
           <td>{{consulta.horario}}</td>
-          <td (click)="deleteConsulta(consulta.id)"><button class="delete-button">Desmarcar</button> </td>
+          <td (click)="deleteConsulta(consulta.id)" style="width: 120px;"><button class="delete-button"><x-icon></x-icon>  Desmarcar</button> </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="nova-consulta" tabindex="-1" aria-labelledby="nova-consultaLabel" aria-hidden="true" >
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content" style="border-radius: 0px;  border-bottom: none;">
-      <div class="modal-header" style="border-bottom: none;">
-        <h4 class="modal-title" id="nova-consultaLabel" style="font-size: 18px; padding-left: 20px; padding-top: 40px;"><b>Nova Consulta</b></h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
 
+<nova-consulta-modal #novaConsulta [closeDrawer]="drawerDispose"></nova-consulta-modal>
 
-          <select class="select-agendamento" name="especialidades" (change)="changeEspecialidade($event)">
-            <option selected disabled style="color:#A8A8A8;">Especialidade</option>
-            <option *ngFor="let especialidade of especialidades" [value]="especialidade">{{especialidade}}</option>
-          </select>
-
-          <select class="select-agendamento" name="medicos" [disabled]="especialidade? null: true" (change)="changeMedico($event)">
-            <option selected disabled style="color:#A8A8A8;">Médico</option>
-            <option *ngFor="let medico of medicos" [value]="medico">{{medico.nome}}</option>
-          </select>
-
-          <select class="select-agendamento" name="dias" [disabled]="medico? null: true" (change)="changeDia($event)">
-            <option selected disabled style="color:#A8A8A8;">Dia</option>
-            <option *ngFor="let agenda of agendas" [value]="agenda.dia">{{agenda.dia}}</option>
-          </select>
-
-          <select class="select-agendamento" name="horarios" [disabled]="dia? null: true" (change)="changeHorario($event)">
-            <option selected disabled style="color:#A8A8A8;">Horário</option>
-            <option *ngFor="let horario of horarios" [value]="horario">{{horario}}</option>
-          </select>
-
-
-      <div class="modal-footer" style="border-top: none;">
-        <div class="action-buttons">
-          <button id="cancelar-btn" data-bs-dismiss="modal"><b>Cancelar</b> </button>
-          <button id="confirm-btn" (click)="agendarConsulta()">Confirmar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
