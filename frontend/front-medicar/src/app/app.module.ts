@@ -13,6 +13,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './pages/user/user-service/user-service.service';
 import { MenuConsultasComponent } from './pages/consultas/menu-consultas/menu-consultas.component';
 import { PlusIconComponent } from './pages/icon/plus-icon';
+import { XIcon } from './pages/icon/x-icon';
+import { NovaConsultaComponent } from './pages/consultas/nova-consulta/nova-consulta.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +25,9 @@ import { PlusIconComponent } from './pages/icon/plus-icon';
     EyeIconComponent,
     EyeSlashIconComponent,
     MenuConsultasComponent,
-    PlusIconComponent
+    PlusIconComponent,
+    XIcon,
+    NovaConsultaComponent
   ],
   imports: [
     BrowserModule,
