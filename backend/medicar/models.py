@@ -2,22 +2,30 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 class Usuario(models.Model):
-    nome = models.CharField(unique=True, max_length=20)
+    nome = models.CharField(unique=False, max_length=20)
     senha = models.CharField(null=False, max_length=20)
-    email = models.CharField(null=True, max_length=100)
+    email = models.EmailField(null=False, max_length=100)
     def __str__(self):
         return self.nome
 
 
 class Medico(models.Model):
-    nome = models.CharField(unique=True, max_length=20)
-    crm = models.IntegerField(unique=True)
-    email = models.CharField(null=True, max_length=100)
-    especialidade = models.CharField( max_length=20)
+    ESPECIALIDADES = (
+        ('Cardiologia', 'Cardiologia'), 
+        ('Obstetrícia', 'Obstetrícia'), 
+        ('Oftalmologia', 'Oftalmologia'), 
+        ('Pediatria', 'Pediatria'), 
+        ('Radiologia', 'Radiologia'), 
+        ('Traumatologia','Traumatologia')
+    )
+    nome = models.CharField(unique=False, max_length=20)
+    crm = models.IntegerField(unique=False)
+    email = models.EmailField(null=True, max_length=100)
+    especialidade = models.CharField(max_length=20, choices=ESPECIALIDADES)
+    
 
     def __str__(self):
         return self.nome
-
 
 class Agenda(models.Model):
     medico = models.ForeignKey(Medico, on_delete=models.CASCADE)
