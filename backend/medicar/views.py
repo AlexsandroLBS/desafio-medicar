@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
@@ -136,7 +136,7 @@ class ConsultasViewSet(generics.ListCreateAPIView):
         if horario in agenda.horarios:
             medico = agenda.medico
             consulta = Consulta.objects.create(
-                dia=agenda.dia,
+                dia=agenda.dia + timedelta(days=1),
                 horario=horario,
                 data_agendamento=timezone.now(),
                 medico=medico
