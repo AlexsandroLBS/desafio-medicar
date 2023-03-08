@@ -33,11 +33,11 @@ export class ConsultasService {
   }
 
   public getAgendasMedico(id: string){
-    return this.httpClient.get(this.apiUrl+AppConstants.consultas.agenda+"?medico_id="+id)
+    return this.httpClient.get(this.apiUrl+AppConstants.consultas.agenda+"?medico="+id)
   }
 
   public getHorariosMedico(id: string, data: string){
-    return this.httpClient.get(this.apiUrl+AppConstants.consultas.agenda+"?medico_id="+id+'&data_inicio='+data+'&data_fim='+data)
+    return this.httpClient.get(this.apiUrl+AppConstants.consultas.agenda+"?medico="+id+'&data_inicio='+data+'&data_fim='+data)
   }
 
   public agendarConsulta(id: string, horario: string){

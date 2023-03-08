@@ -172,7 +172,7 @@ class AgendaViewSet(APIView):
         dia_atual = current_datetime.date()
         hora_atual = current_datetime.time()
 
-        medicos_ids = request.GET.getlist('medico_id')
+        medicos_ids = request.GET.getlist('medico')
         crm = request.GET.getlist('crm')
         data_inicio = request.GET.get('data_inicio')
         data_fim = request.GET.get('data_fim')
