@@ -8,7 +8,7 @@
   <div class="consultas-info">
   <div class="title">
     <h2 >Consulta Clínica</h2>
-    <button class="nova-consulta" data-bs-toggle="modal" data-bs-target="#nova-consulta"><plus-icon></plus-icon> Nova Consulta</button>
+    <button class="nova-consulta" data-bs-toggle="modal" data-bs-target="#nova-consulta" (click)="openDrawer=true"><plus-icon></plus-icon> Nova Consulta</button>
   </div>
     <table class="content-table">
       <thead>
@@ -34,5 +34,5 @@
 </div>
 
 
-<nova-consulta-modal #novaConsulta [closeDrawer]="drawerDispose"></nova-consulta-modal>
+<nova-consulta-modal *ngIf="openDrawer" #novaConsulta (reloadData)="reloadTable($event)" (resetFields)="resetModal($event)" [openDrawer]="openDrawer"></nova-consulta-modal>
 

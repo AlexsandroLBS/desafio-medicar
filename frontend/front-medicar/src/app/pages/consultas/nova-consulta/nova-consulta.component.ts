@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ConsultasService } from '../consultas-service/consultas.service';
 
 @Component({
@@ -19,14 +19,29 @@ export class NovaConsultaComponent implements OnInit {
   public horario: string = ''
   public agendaId: string = '';
 
-  @Input() closeDrawer!: () => void;
+  @Input() openDrawer!: boolean;
+
+  @Output() reloadData: EventEmitter<any> = new EventEmitter();
+  @Output() resetFields: EventEmitter<any> = new EventEmitter();
   constructor(private consultasService: ConsultasService){}
 
   ngOnInit(): void {
     this.loadEspecialidades()
+
+    const modal = document.getElementById('modal')
+    modal!.addEventListener('hidden.bs.modal', () => {
+      this.resetFields.emit(true)
+    })
+  
   }
 
+  public reloadTable(){
+    this.reloadData.emit(true)
+  }
 
+  public resetModal(){
+    this.resetFields.emit(true)
+  }
 
   public async loadEspecialidades(){
     this.consultasService.getEspecialidades().subscribe((data: any) => {
@@ -77,8 +92,9 @@ export class NovaConsultaComponent implements OnInit {
   public agendarConsulta(){
     this.consultasService.agendarConsulta(this.agendaId, this.horario).subscribe((data) =>{
       console.log('Consulta agendada: ', data)
+      this.resetFields.emit(true)
+      this.reloadTable()
     })
   }
-
 
 }

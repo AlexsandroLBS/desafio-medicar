@@ -1,5 +1,4 @@
-<!-- Modal -->
-<div class="modal fade" id="nova-consulta" tabindex="-1" aria-labelledby="nova-consultaLabel" aria-hidden="true" >
+<div  class="modal fade" id="nova-consulta" tabindex="-1" aria-labelledby="nova-consultaLabel" aria-hidden="true" >
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius: 0px;  border-bottom: none;">
       <div class="modal-header" style="border-bottom: none;">
@@ -36,8 +35,8 @@
 
       <div class="modal-footer" style="border-top: none;">
         <div class="action-buttons">
-          <button id="cancelar-btn" data-bs-dismiss="modal" (click)="closeDrawer()"><b>Cancelar</b> </button>
-          <button id="confirm-btn" (click)="agendarConsulta()" [disabled]="!dia || !medico || !horario || !especialidade" >Confirmar</button>
+          <button id="cancelar-btn" data-bs-dismiss="modal" (click)="resetFields.emit(true)"><b>Cancelar</b> </button>
+          <button id="confirm-btn" data-bs-dismiss="modal" (click)="agendarConsulta()" [disabled]="!dia || !medico || !horario || !especialidade" >Confirmar</button>
         </div>
       </div>
     </div>

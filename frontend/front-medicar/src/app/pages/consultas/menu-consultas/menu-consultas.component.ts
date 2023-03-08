@@ -12,6 +12,7 @@ declare var window: any;
 export class MenuConsultasComponent implements OnInit{
   public usuario: string = '';
   public consultas: any;
+  public openDrawer: boolean = true;
 
   @ViewChild('novaConsulta') novaConsulta: any;
 
@@ -25,7 +26,7 @@ export class MenuConsultasComponent implements OnInit{
     })
   }
 
-  private initTable(){
+  public initTable(){
     this.consultasService.getConsultas().subscribe((data) =>
     this.consultas = data)
   }
@@ -46,9 +47,15 @@ export class MenuConsultasComponent implements OnInit{
     return formattedDate
   }
 
-  public drawerDispose(){
-    if (this.novaConsulta) {
-      this.novaConsulta.dispose();
+  public reloadTable(event: any){
+    if(event){
+      this.initTable()
+    }
+  }
+
+  public resetModal(event: any){
+    if(event){
+      this.openDrawer = false;
     }
   }
 }
