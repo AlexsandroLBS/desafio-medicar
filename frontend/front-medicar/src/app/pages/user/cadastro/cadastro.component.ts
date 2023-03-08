@@ -13,10 +13,11 @@ export class CadastroComponent implements OnInit{
   public senhaVisivel: boolean = false;
   public senhaConfirmacaoVisivel: boolean = false;
   public sessionUser: any;
+
   constructor(private formBuilder: FormBuilder, private signUpService: UserService, private router: Router){
     this.form = this.formBuilder.group({
       nome: [null, Validators.required],
-      email: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
       senha: [null, Validators.required],
       senhaConfirmacao: [null, Validators.required],
     })
@@ -60,4 +61,9 @@ export class CadastroComponent implements OnInit{
     )
   }
 
+  public isValidEmail(field : string){
+    this.form.get(field)?.touched
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i
+    return this.form.get(field)!.touched && !emailRegex.test(this.form.get(field)!.value) && this.form.get(field)!.value
+  }
 }

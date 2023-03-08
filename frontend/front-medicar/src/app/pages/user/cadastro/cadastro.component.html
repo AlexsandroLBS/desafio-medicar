@@ -28,6 +28,8 @@
         <button *ngIf="senhaConfirmacaoVisivel" class="eye" (click)="mostrarSenhaConfirmacao()"><i><eye-slash-icon></eye-slash-icon></i></button>
       </div>
 
+      <span class="error-text" *ngIf="(this.form.get('senha')!.value != this.form.get('senhaConfirmacao')!.value)">- As senhas precisam ser iguais</span>
+      <span class="error-text" *ngIf="isValidEmail('email') ">- Put a valid email</span>
 
       <div class="action-buttons">
         <button id="criar-conta-btn" (click)="goToLogin()"><b>Cancelar</b></button>
