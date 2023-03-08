@@ -33,6 +33,14 @@ services:
       - "8000:8000"
     depends_on: 
       - db
+      
+  web:
+    build: ./frontend/front-medicar/
+    container_name: web-app
+    volumes:
+      - './frontend/front-medicar:/usr/src/app'
+    ports:
+      - "4200:4200"
 
 volumes:
   pg-data:
