@@ -23,7 +23,7 @@
 
       <div class="input-box">
         <input id="btn-senha-confirmacao"type="password" required="required" formControlName="senhaConfirmacao">
-        <span>Senha</span>
+        <span>Confirmar Senha</span>
         <button *ngIf="!senhaConfirmacaoVisivel"class="eye" (click)="mostrarSenhaConfirmacao()"><i><eye-icon></eye-icon></i></button>
         <button *ngIf="senhaConfirmacaoVisivel" class="eye" (click)="mostrarSenhaConfirmacao()"><i><eye-slash-icon></eye-slash-icon></i></button>
       </div>
