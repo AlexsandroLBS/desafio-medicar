@@ -157,7 +157,7 @@ class ConsultasDeleteViewSet(generics.DestroyAPIView):
         consulta_id = kwargs['id']
         consulta = get_object_or_404(Consulta, id=consulta_id)
         if datetime.combine(consulta.dia, consulta.horario) >= datetime.combine(dia_atual, hora_atual):
-            agenda = get_object_or_404(Agenda, dia = consulta.dia, medico = consulta.medico)
+            agenda = get_object_or_404(Agenda, dia = consulta.dia - timedelta(days=1), medico = consulta.medico)
             agenda.horarios.append(consulta.horario)
             agenda.save()
             consulta.delete()
