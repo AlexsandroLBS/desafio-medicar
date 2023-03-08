@@ -8,14 +8,12 @@ To execute the application, you need to be in project root path and run:
 
 ```
 docker-compose up
-
 ```
 
 For creating a super user access, run:
 
 ```
 docker-compose run api python manage.py createsuperuser
-
 ```
 
 After that, front will be available at:
