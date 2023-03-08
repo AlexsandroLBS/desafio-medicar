@@ -32,7 +32,7 @@ export class NovaConsultaComponent implements OnInit {
     modal!.addEventListener('hidden.bs.modal', () => {
       this.resetFields.emit(true)
     })
-  
+
   }
 
   public reloadTable(){
@@ -53,8 +53,6 @@ export class NovaConsultaComponent implements OnInit {
     this.especialidade = '';
     this.medico = ''
     this.especialidade = e.target.value
-
-    console.log('veio aqui')
     if(this.especialidade){
       this.consultasService.getMedicosPorEspecialidade(this.especialidade).subscribe((data) =>
         this.medicos = data
@@ -64,7 +62,6 @@ export class NovaConsultaComponent implements OnInit {
 
   public changeMedico(e: any){
     this.medico = e.target.value
-
     if(this.medico && this.medico!= null){
       this.consultasService.getAgendasMedico(this.medico).subscribe((data) =>
         this.agendas = data
