@@ -78,7 +78,7 @@ class EspecialidadesViewSet(APIView):
             especialidades = list(set(especialidades))
             return Response({'especialidades': especialidades})
         else:
-            return Response({'error': 'Não há nenhuma consulta disponivel'})
+            return Response({'error': 'Não há nenhuma especialidade com agenda disponivel'})
 
 
 class MedicoEspecialidade(APIView):
