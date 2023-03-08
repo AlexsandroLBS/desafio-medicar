@@ -19,10 +19,9 @@ class Medico(models.Model):
         ('Traumatologia','Traumatologia')
     )
     nome = models.CharField(unique=False, max_length=20)
-    crm = models.IntegerField(unique=False)
-    email = models.EmailField(null=True, max_length=100)
+    crm = models.IntegerField(unique=True)
+    email = models.EmailField(unique=True, null=True, max_length=100)
     especialidade = models.CharField(max_length=20, choices=ESPECIALIDADES)
-    
 
     def __str__(self):
         return self.nome
