@@ -18,6 +18,7 @@ docker-compose run api python manage.py createsuperuser
 
 After that, front will be available at:
  - http://localhost:4200/ 
+ 
 and API at:
  - http://localhost:8000/
 
