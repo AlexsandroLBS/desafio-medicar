@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConsultasService } from '../consultas-service/consultas.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { ConsultasService } from '../consultas-service/consultas.service';
   templateUrl: './nova-consulta.component.html',
   styleUrls: ['./nova-consulta.component.less']
 })
-export class NovaConsultaComponent implements OnInit , OnChanges{
+export class NovaConsultaComponent implements OnInit {
 
   public especialidades: any;
   public medicos: any;
@@ -26,9 +26,7 @@ export class NovaConsultaComponent implements OnInit , OnChanges{
     this.loadEspecialidades()
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
-  }
+
 
   public async loadEspecialidades(){
     this.consultasService.getEspecialidades().subscribe((data: any) => {
