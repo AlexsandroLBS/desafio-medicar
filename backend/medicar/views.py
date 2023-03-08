@@ -206,7 +206,7 @@ class AgendaViewSet(APIView):
                         'especialidade': agenda.medico.especialidade
                     },
                     'dia': str(agenda.dia),
-                    'horarios': horarios_filtrados
+                    'horarios': sorted(horarios_filtrados)
                 }
                 agendas_filtradas.append(agenda_dict)
 
